@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional
 
-from capitalone_dataprofiler_expectations.rule_based_profiler.data_assistant_result.profile_report_based_columns_data_assistant_result import (
+from contrib.capitalone_dataprofiler_expectations.capitalone_dataprofiler_expectations.rule_based_profiler.data_assistant_result.profile_report_based_columns_data_assistant_result import (
     ProfileReportBasedColumnsDataAssistantResult,
 )
 
@@ -11,7 +11,6 @@ from great_expectations.rule_based_profiler.data_assistant_result import (
 )
 from great_expectations.rule_based_profiler.domain_builder import (
     ColumnDomainBuilder,
-    DomainBuilder,
 )
 from great_expectations.rule_based_profiler.expectation_configuration_builder import (
     DefaultExpectationConfigurationBuilder,
@@ -126,7 +125,46 @@ class ProfileReportBasedColumnsDataAssistant(DataAssistant):
             validation_parameter_builder_configs=validation_parameter_builder_configs,
             column=f"{DOMAIN_KWARGS_PARAMETER_FULLY_QUALIFIED_NAME}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}column",
             min_value=f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_VALUE_KEY}.statistics.min",
-            max_value=f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_VALUE_KEY}.statistics.min",
+            max_value=None,
+            strict_min=f"{VARIABLES_KEY}strict_min",
+            strict_max=None,
+            meta={
+                "profiler_details": f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_METADATA_KEY}",
+            },
+        )
+
+        expect_column_max_to_be_between_expectation_configuration_builder = DefaultExpectationConfigurationBuilder(
+            expectation_type="expect_column_max_to_be_between",
+            validation_parameter_builder_configs=validation_parameter_builder_configs,
+            column=f"{DOMAIN_KWARGS_PARAMETER_FULLY_QUALIFIED_NAME}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}column",
+            min_value=None,
+            max_value=f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_VALUE_KEY}.statistics.max",
+            strict_min=None,
+            strict_max=f"{VARIABLES_KEY}strict_max",
+            meta={
+                "profiler_details": f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_METADATA_KEY}",
+            },
+        )
+
+        expect_column_mean_to_be_between_expectation_configuration_builder = DefaultExpectationConfigurationBuilder(
+            expectation_type="expect_column_mean_to_be_between",
+            validation_parameter_builder_configs=validation_parameter_builder_configs,
+            column=f"{DOMAIN_KWARGS_PARAMETER_FULLY_QUALIFIED_NAME}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}column",
+            min_value=f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_VALUE_KEY}.statistics.mean",
+            max_value=f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_VALUE_KEY}.statistics.mean",
+            strict_min=f"{VARIABLES_KEY}strict_min",
+            strict_max=f"{VARIABLES_KEY}strict_max",
+            meta={
+                "profiler_details": f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_METADATA_KEY}",
+            },
+        )
+
+        expect_column_stddev_to_be_between_expectation_configuration_builder = DefaultExpectationConfigurationBuilder(
+            expectation_type="expect_column_stdev_to_be_between",
+            validation_parameter_builder_configs=validation_parameter_builder_configs,
+            column=f"{DOMAIN_KWARGS_PARAMETER_FULLY_QUALIFIED_NAME}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}column",
+            min_value=f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_VALUE_KEY}.statistics.stddev",
+            max_value=f"{data_profiler_profile_report_metric_single_batch_parameter_builder_for_validations.json_serialized_fully_qualified_parameter_name}{FULLY_QUALIFIED_PARAMETER_NAME_SEPARATOR_CHARACTER}{FULLY_QUALIFIED_PARAMETER_NAME_VALUE_KEY}.statistics.stddev",
             strict_min=f"{VARIABLES_KEY}strict_min",
             strict_max=f"{VARIABLES_KEY}strict_max",
             meta={
@@ -146,6 +184,9 @@ class ProfileReportBasedColumnsDataAssistant(DataAssistant):
         ]
         expectation_configuration_builders: List[ExpectationConfigurationBuilder] = [
             expect_column_min_to_be_between_expectation_configuration_builder,
+            expect_column_max_to_be_between_expectation_configuration_builder,
+            expect_column_mean_to_be_between_expectation_configuration_builder,
+            expect_column_stddev_to_be_between_expectation_configuration_builder,
         ]
         rule = Rule(
             name="columns_rule",
