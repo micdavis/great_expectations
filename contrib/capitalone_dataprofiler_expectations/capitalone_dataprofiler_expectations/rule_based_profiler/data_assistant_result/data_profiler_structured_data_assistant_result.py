@@ -6,7 +6,7 @@ from great_expectations.rule_based_profiler.data_assistant_result import (
 )
 
 
-class ProfileReportBasedColumnsDataAssistantResult(DataAssistantResult):
+class DataProfilerStructuredDataAssistantResult(DataAssistantResult):
     """
     Note (10/18/2022): Plotting functionality is not implemented.
     """
